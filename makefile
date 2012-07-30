@@ -22,9 +22,9 @@ CXX = g++-mp-4.7
 CC = $(CXX)
 CXXFLAGS = $(CFLAGS)
 
-TESTSRC = test.cpp
+TESTSRC = test.cpp ramp.cpp simulation.cpp
 TESTOBJ = $(TESTSRC:%.cpp=%.o)
-TESTEXE = $(TESTSRC:%.cpp=%)
+TESTEXE = test
 
 LIBSRC = 
 LIBHEADER = 
@@ -37,16 +37,19 @@ EXE = $(TESTEXE)
 
 SUBMISSIONS = $(SRC) $(HEADER) Makefile README
 
-all:	$(TESTEXE) run
- 
+all:	run
+
 
 clean:
 	rm -f $(OBJ) $(EXE)
 
-target:  $(TESTOBJ)
+#target:  $(TESTSRC)
+#	$(CC) $(TESTSRC) $(LIBFLAGS)	
+
+exe:	$(TESTOBJ)
 	$(CC) -o $(TESTEXE) $(TESTOBJ) $(LIBFLAGS)	
 
-run:	$(TESTEXE)
+run:	exe
 	./test
 
 
