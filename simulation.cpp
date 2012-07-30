@@ -1,4 +1,5 @@
 #include "simulation.hpp"
+#include <algorithm>
 
 Simulation::Simulation(Ramp ramp) : ramp_(ramp)
 {
@@ -17,16 +18,15 @@ void Simulation::run()
     {
       int thresholdCount = 0;
       int current = ramp_.run();
-      for (Thresholds::iterator itr = thresholds_.begin();
-	   itr != thresholds_.end();  ++itr)
-	{
-	  if (current == *itr)
-	    {
-	      results_[thresholdCount] = counter;
-              ++resultsFound;
-	    }
-          ++thresholdCount;
-	}
+      std::for_each(thresholds_.begin(), thresholds_.end(),
+	       [=, &resultsFound, &thresholdCount](int value){
+	          if (current == value)
+	          {
+	            results_[thresholdCount] = counter;
+                    ++resultsFound;
+	          }
+                  ++thresholdCount;
+		    });
       if (thresholds_.size() == resultsFound)
 	break;
     }
