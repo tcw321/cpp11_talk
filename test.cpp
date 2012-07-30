@@ -30,13 +30,13 @@ TEST_CASE("simulation", "create simulation")
   REQUIRE(simulation.reportTime() == 3);
 }
 
-TEST_CASE("secondthreshold", "second threshold")
+TEST_CASE("secondthreshold2", "second threshold reverse order")
 {
   Ramp ramp;
   Simulation simulation(ramp);
-  simulation.setThreshold(30);
   simulation.setThreshold(40);
+  simulation.setThreshold(30);
   simulation.run();
-  REQUIRE(simulation.reportTime() == 3);
   REQUIRE(simulation.reportTime() == 4);
+  REQUIRE(simulation.reportTime() == 3);
 }
