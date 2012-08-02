@@ -1,11 +1,14 @@
 #ifndef ramp_hpp
 #define ramp_hpp
 
-class Ramp
+#include "algorithm.hpp"
+
+class Ramp : public Algorithm
 {
 public:
   Ramp();
   int run();
+
 private:
   int initialValue_;
 };

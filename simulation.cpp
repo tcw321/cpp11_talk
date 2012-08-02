@@ -1,7 +1,10 @@
 #include "simulation.hpp"
-#include <algorithm>
 
-Simulation::Simulation(Ramp ramp) : ramp_(ramp)
+#include <algorithm>
+#include <functional>
+#include <iostream>
+
+Simulation::Simulation(std::shared_ptr<Algorithm> alg) : algorithm_(alg)
 {
 }
 
@@ -11,29 +14,27 @@ void Simulation::setThreshold(int threshold)
   results_.push_back(-1);
 }
 
+void Simulation::add(Collector c)
+{
+  collectors_.push_back(c);
+}
+
 void Simulation::run()
 {
   int resultsFound = 0;
-  for(int counter = 0;; ++counter)
+  for(int counter = 0;counter != 5; ++counter)
     {
       int thresholdCount = 0;
-      int current = ramp_.run();
-      std::for_each(thresholds_.begin(), thresholds_.end(),
-	       [=, &resultsFound, &thresholdCount](int value){
-	          if (current == value)
-	          {
-	            results_[thresholdCount] = counter;
-                    ++resultsFound;
-	          }
-                  ++thresholdCount;
-		    });
-      if (thresholds_.size() == resultsFound)
-	break;
+      int current = algorithm_->run();
+      for ( auto& collector : collectors_)
+	{
+	  collector.run(counter, current);
+	}
     }
-  resultsItr_ = results_.begin();
+  collectorItr_ = collectors_.begin();
 }
 
 int Simulation::reportTime()
 {
-  return *(resultsItr_++);
+  return (collectorItr_++)->getResult();
 }

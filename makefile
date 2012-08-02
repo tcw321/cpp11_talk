@@ -27,7 +27,7 @@ TESTOBJ = $(TESTSRC:%.cpp=%.o)
 TESTEXE = test
 
 LIBSRC = 
-LIBHEADER = 
+LIBHEADER = collector.hpp simulation.hpp icollector.hpp ramp.hpp
 LIBOBJ = $(LIBSRC:%.cpp=%.o)
 
 SRC = $(LIBSRC) $(TESTSRC)
@@ -37,21 +37,24 @@ EXE = $(TESTEXE)
 
 SUBMISSIONS = $(SRC) $(HEADER) Makefile README
 
-all:	run
+all:	depend run
 
 
 clean:
 	rm -f $(OBJ) $(EXE)
 
-#target:  $(TESTSRC)
-#	$(CC) $(TESTSRC) $(LIBFLAGS)	
-
-exe:	$(TESTOBJ)
+exe:	$(TESTOBJ) 
 	$(CC) -o $(TESTEXE) $(TESTOBJ) $(LIBFLAGS)	
 
 run:	exe
 	./test
 
+depend: .depend
 
+.depend: $(TESTSRC)
+	rm -f ./.depend
+	$(CC) $(CFLAGS) -MM $^ >> ./.depend;
+
+include .depend
 
 # gmake depend tacks on a bunch of stuff after this...
