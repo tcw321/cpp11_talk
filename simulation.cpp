@@ -22,7 +22,7 @@ void Simulation::add(Collector c)
 void Simulation::run()
 {
   int resultsFound = 0;
-  for(int counter = 0;counter != 5; ++counter)
+  for(int counter = 0;counter != 10; ++counter)
     {
       int thresholdCount = 0;
       int current = algorithm_->run();
