@@ -57,4 +57,16 @@ TEST_CASE("range", "range")
   REQUIRE(simulation.reportTime() == 2);
 }
 
+#include "many_collector.hpp"
+
+TEST_CASE("many", "many")
+{
+  std::vector<int> data = {2,3,40,50,30,-10,0,10,20,25,30,31,-20,0,0,0};
+  auto signal = std::make_shared<Signal>(data);
+  Simulation simulation(signal);
+  simulation.add(std::make_shared<ManyCollector<int,int,int,int>>(25,40,50,1));
+  simulation.run();
+  REQUIRE(simulation.reportTime() == 2);
+}
+
 // list a wait time
