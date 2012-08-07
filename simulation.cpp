@@ -14,7 +14,7 @@ void Simulation::setThreshold(int threshold)
   results_.push_back(-1);
 }
 
-void Simulation::add(Collector c)
+void Simulation::add(std::shared_ptr<ICollector> c)
 {
   collectors_.push_back(c);
 }
@@ -28,7 +28,7 @@ void Simulation::run()
       int current = algorithm_->run();
       for ( auto& collector : collectors_)
 	{
-	  collector.run(counter, current);
+	  collector->run(counter, current);
 	}
     }
   collectorItr_ = collectors_.begin();
@@ -36,5 +36,5 @@ void Simulation::run()
 
 int Simulation::reportTime()
 {
-  return (collectorItr_++)->getResult();
+  return (*(collectorItr_++))->getResult();
 }

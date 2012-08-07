@@ -2,7 +2,7 @@
 #define simulation_hpp
 
 #include "algorithm.hpp"
-#include "collector.hpp"
+#include "icollector.hpp"
 
 #include <vector>
 
@@ -12,7 +12,7 @@ public:
   Simulation(std::shared_ptr<Algorithm> alg);
   
   void setThreshold(int threshold);
-  void add(Collector c);
+  void add(std::shared_ptr<ICollector> c);
 
   void run();
   int reportTime();
@@ -24,7 +24,7 @@ private:
   typedef std::vector<int> Results;
   Results results_;
   Results::const_iterator resultsItr_;
-  typedef std::vector<Collector> CollectorArray;
+  typedef std::vector<std::shared_ptr<ICollector>> CollectorArray;
   CollectorArray collectors_;
   CollectorArray::iterator collectorItr_;  
 };

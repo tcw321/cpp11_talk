@@ -22,7 +22,7 @@ CXX = g++-mp-4.7
 CC = $(CXX)
 CXXFLAGS = $(CFLAGS)
 
-TESTSRC = test.cpp ramp.cpp simulation.cpp
+TESTSRC = test.cpp ramp.cpp simulation.cpp signal.cpp
 TESTOBJ = $(TESTSRC:%.cpp=%.o)
 TESTEXE = test
 

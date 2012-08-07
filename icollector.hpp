@@ -13,3 +13,4 @@ public:
 };
 
 #endif
+// better name basecollector, one collector, two collector
