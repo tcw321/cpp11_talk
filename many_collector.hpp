@@ -47,11 +47,11 @@ private:
   int result_;
 };
 
-template<typename T>
-class ManyCollector<T> : public ICollector
+template<>
+class ManyCollector<> : public ICollector
 {
 public:
-  ManyCollector(int value) : value_(value), result_(-1)
+  ManyCollector() : result_(-1)
   {
   }
   void initialize()
@@ -59,15 +59,12 @@ public:
   }
   void run(int time, int value)
   {
-    if (value == value_)
-      result_ = time;
   }
   int getResult() const
   {
     return result_;
   }
 private:
-  int value_;
   int result_;
 };
 
