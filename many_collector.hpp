@@ -29,7 +29,6 @@ public:
   int getResult() const
   {
     int other = moreCollectors_.getResult();
-    std::cout << "result " << result_ << " value " << value1_ << "\n";
     if (other == -1)
       return result_;
     if (result_ != -1)

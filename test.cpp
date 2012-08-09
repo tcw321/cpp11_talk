@@ -61,12 +61,27 @@ TEST_CASE("range", "range")
 
 TEST_CASE("many", "many")
 {
-  std::vector<int> data = {2,3,40,50,30,-10,0,10,20,25,30,31,-20,0,0,0};
+  std::vector<int> data {2,3,40,50,30,-10,0,10,20,25,30,31,-20,0,0,0};
   auto signal = std::make_shared<Signal>(data);
   Simulation simulation(signal);
-  simulation.add(std::make_shared<ManyCollector<int,int,int,int>>(25,40,50,1));
+  simulation.add(std::make_shared<ManyCollector<int,int,int,int>>(2,9,11,23));
+  simulation.add(std::make_shared<ManyCollector<int,int,int,int>>(9,2,11,23));
+  simulation.add(std::make_shared<ManyCollector<int,int,int,int>>(9,11,2,23));
+  simulation.add(std::make_shared<ManyCollector<int,int,int,int>>(9,11,23,2));
+  simulation.add(std::make_shared<ManyCollector<int,int,int,int>>(50,30,-10,10));
+  simulation.add(std::make_shared<ManyCollector<int,int,int,int>>(30,50,-10,10));
+  simulation.add(std::make_shared<ManyCollector<int,int,int,int>>(30,-10,50,10));
+  simulation.add(std::make_shared<ManyCollector<int,int,int,int>>(10,30,-10,50));
   simulation.run();
-  REQUIRE(simulation.reportTime() == 2);
+  REQUIRE(simulation.reportTime() == 0);
+  REQUIRE(simulation.reportTime() == 0);
+  REQUIRE(simulation.reportTime() == 0);
+  REQUIRE(simulation.reportTime() == 0);
+
+  REQUIRE(simulation.reportTime() == 3);
+  REQUIRE(simulation.reportTime() == 3);
+  REQUIRE(simulation.reportTime() == 3);
+  REQUIRE(simulation.reportTime() == 3);
 }
 
 // list a wait time
