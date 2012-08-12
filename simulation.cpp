@@ -26,10 +26,10 @@ void Simulation::run()
     {
       int thresholdCount = 0;
       int current = algorithm_->run();
-      for ( auto& collector : collectors_)
+      std::for_each ( collectors_.begin(), collectors_.end(), [=](std::shared_ptr<ICollector> element)
 	{
-	  collector->run(counter, current);
-	}
+	  element->run(counter, current);
+	});
     }
   collectorItr_ = collectors_.begin();
 }
