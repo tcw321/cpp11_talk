@@ -4,7 +4,7 @@
 #include <functional>
 #include <iostream>
 
-Simulation::Simulation(std::shared_ptr<Algorithm> alg) : algorithm_(alg)
+Simulation::Simulation(std::unique_ptr<Algorithm> alg) : algorithm_(std::move(alg))
 {
 }
 
@@ -14,9 +14,9 @@ void Simulation::setThreshold(int threshold)
   results_.push_back(-1);
 }
 
-void Simulation::add(std::shared_ptr<ICollector> c)
+void Simulation::add(std::unique_ptr<ICollector> c)
 {
-  collectors_.push_back(c);
+  collectors_.push_back(std::move(c));
 }
 
 void Simulation::run()
