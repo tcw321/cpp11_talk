@@ -5,9 +5,11 @@
 #include <memory>
 #include <iostream>
 
+//default template
 template<typename...T>
 class ManyCollector;
 
+//specialized template
 template<typename T, typename ...Rest>
 class ManyCollector<T, Rest...> : public ICollector
 {
@@ -46,6 +48,7 @@ private:
   int result_;
 };
 
+//specialized template
 template<>
 class ManyCollector<> : public ICollector
 {
