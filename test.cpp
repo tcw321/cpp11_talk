@@ -1,4 +1,5 @@
 #include <vector>
+#include <thread>
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
@@ -82,6 +83,25 @@ TEST_CASE("many", "many")
   REQUIRE(simulation.reportTime() == 3);
   REQUIRE(simulation.reportTime() == 3);
   REQUIRE(simulation.reportTime() == 3);
+}
+
+TEST_CASE("threads", "run two simulations in different threads")
+{
+  std::vector<int> data1 {2,3,40,50,30,-10,0,10,20,25,30,31,-20,0,0,0};
+  auto signal1 = std::make_shared<Signal>(data1);
+  Simulation simulation1(signal1);
+  simulation1.add(std::make_shared<ManyCollector<int,int,int,int>>(2,9,11,23));
+
+  std::vector<int> data2 {2,3,40,50,30,-10,0,10,20,25,30,31,-20,0,0,0};
+  auto signal2 = std::make_shared<Signal>(data2);
+  Simulation simulation2(signal2);
+  simulation2.add(std::make_shared<ManyCollector<int,int,int,int>>(1,9,30,23));
+  std::thread t(&Simulation::run, &simulation1);
+  simulation2.run();
+  t.join();
+  REQUIRE(simulation1.reportTime() == 0);
+  REQUIRE(simulation2.reportTime() == 4); 
+
 }
 
 // list a wait time
