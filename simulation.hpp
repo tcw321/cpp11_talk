@@ -26,7 +26,8 @@ private:
   Results::const_iterator resultsItr_;
   typedef std::vector<std::shared_ptr<ICollector>> CollectorArray;
   CollectorArray collectors_;
-  CollectorArray::iterator collectorItr_;  
+  CollectorArray::iterator collectorItr_;
+  int runLength_;  
 };
 
 #endif

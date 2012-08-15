@@ -4,7 +4,7 @@
 #include <functional>
 #include <iostream>
 
-Simulation::Simulation(std::shared_ptr<Algorithm> alg) : algorithm_(alg)
+Simulation::Simulation(std::shared_ptr<Algorithm> alg) : algorithm_(alg), runLength_(10)
 {
 }
 
@@ -21,15 +21,11 @@ void Simulation::add(std::shared_ptr<ICollector> c)
 
 void Simulation::run()
 {
-  int resultsFound = 0;
-  for(int counter = 0;counter != 10; ++counter)
+  using namespace std::placeholders;
+  for(int counter = 0;counter != runLength_; ++counter)
     {
-      int thresholdCount = 0;
       int current = algorithm_->run();
-      std::for_each ( collectors_.begin(), collectors_.end(), [=](std::shared_ptr<ICollector> element)
-	{
-	  element->run(counter, current);
-	});
+      std::for_each ( collectors_.begin(), collectors_.end(), std::bind(&ICollector::run, _1, counter, current));
     }
   collectorItr_ = collectors_.begin();
 }
